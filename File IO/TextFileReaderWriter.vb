@@ -145,7 +145,7 @@ ErrorHandler:
 	Select Case True
 	Case Err = 12345 ' Some type of error has occurred
 		' Do something
-		Exit Function
+		Exit Sub
 	Case Else
 		' Handle other errors
 		MsgBox "Error " & Err & ": " & Error$ + chr(13) + "At line : " + Erl + chr(13) + Now , 16 ,"an error occurred"
