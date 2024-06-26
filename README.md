@@ -5,7 +5,7 @@ This repository contains a collection of LibreOffice Basic functions that are de
 The functions provided in this repository were created and tested exclusively on Linux (Ubuntu 22.04). There are no plans to adapt any of these functions to work on Windows or Mac.
 
 ## Code readability and comments
-The code has been written, indented and commented with maximum ease of readability and comprehensibility for VBA programmers who would like to switch to LibreOffice Basic in mind. For this reason, shorthand techniques such as nested statements have been avoided to the greatest extent possible.
+The code has been written, indented and commented with maximum ease of readability and comprehensibility for VBA programmers who want to switch to LibreOffice Basic in mind. Shorthand techniques such as nested statements have been avoided to the greatest extent possible.
 
 ## Libraries included in this repository
 This repository includes the following libraries:
