@@ -7,6 +7,9 @@ The functions provided in this repository were created and tested exclusively on
 ## Code readability and comments
 The code has been written, indented and commented with maximum ease of readability and comprehensibility for VBA programmers who want to switch to LibreOffice Basic in mind. Shorthand techniques such as nested statements have been avoided to the greatest extent possible.
 
+## How to sync the libraries in this repository with LibreOffice
+You can use [obasync](https://github.com/imacat/obasync) to sync the libraries in this repository with a Documnent Basic Macro Storage or with the System and User Basic Macro Storage ("My Macros & Dialogs"). See [this video](https://www.youtube.com/watch?v=qB1rAAgkYGY) by [imacat](https://github.com/imacat) for more information.
+
 ## Libraries included in this repository
 This repository includes the following libraries:
 
