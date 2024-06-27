@@ -12,7 +12,7 @@ To sync the libraries in this repository with the System and User Basic Macro St
 
 |   |   |
 |:---|:---|
-| ![image](https://github.com/RayCulp/actions-for-nemo-file-manager/assets/7621330/852bed00-e05f-4190-b078-c2077e94bd73) | __NOTICE__ <br/>Currently, obasync does **not** appear to be able to sync with the Basic Macro Storage of a specific document.|
+| ![image](https://github.com/RayCulp/LibreOffice-Basic-Libraries/assets/7621330/bdbaf1bb-9277-48d4-9df5-784e26f443d4) | __NOTICE__ <br/>Currently, obasync does **not** appear to be able to sync with the Basic Macro Storage of a specific document.|
 
 See [this video](https://www.youtube.com/watch?v=qB1rAAgkYGY) by [imacat](https://github.com/imacat) for more information.
 
