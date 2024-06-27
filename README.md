@@ -8,7 +8,13 @@ The functions provided in this repository were created and tested exclusively on
 The code has been written, indented and commented with maximum ease of readability and comprehensibility for VBA programmers who want to switch to LibreOffice Basic in mind. Shorthand techniques such as nested statements have been avoided to the greatest extent possible.
 
 ## How to sync the libraries in this repository with LibreOffice
-You can use [obasync](https://github.com/imacat/obasync) to sync the libraries in this repository with the System and User Basic Macro Storage ("My Macros & Dialogs"). obasync does **not** appear to be able to sync with the Basic Macro Storage of a specific document. See [this video](https://www.youtube.com/watch?v=qB1rAAgkYGY) by [imacat](https://github.com/imacat) for more information.
+To sync the libraries in this repository with the System and User Basic Macro Storage ("My Macros & Dialogs") of your LibreOffice installation, first download (or git clone) the libraries and the modules contained in them to a folder on your local drive. Then you can use [obasync](https://github.com/imacat/obasync) to sync the downloaded libraries with your System and User Basic Macro Storage ("My Macros & Dialogs"). 
+
+|   |   |
+|:---|:---|
+| ![image](https://github.com/RayCulp/actions-for-nemo-file-manager/assets/7621330/852bed00-e05f-4190-b078-c2077e94bd73) | __NOTICE__ <br/>Currently, obasync does **not** appear to be able to sync with the Basic Macro Storage of a specific document.|
+
+See [this video](https://www.youtube.com/watch?v=qB1rAAgkYGY) by [imacat](https://github.com/imacat) for more information.
 
 ## Libraries included in this repository
 This repository includes the following libraries:
