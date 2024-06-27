@@ -19,7 +19,8 @@ Public Function ReadTextFile(ByVal sFilePath As String) As String
 	' Declarations
 	
 		Dim oSimpleFileAccess As Object
-		Dim oTextInputStream As object
+		Dim oTextInputStream As Object
+		Dim oInputStream As Object   
 		Dim sBuffer As string
 		Dim lDelimiters() As Long
 		Dim sFileURL As String 
@@ -40,10 +41,16 @@ Public Function ReadTextFile(ByVal sFilePath As String) As String
 	
 		oTextInputStream = CreateUnoService("com.sun.star.io.TextInputStream")
 	
-	' Open the file for reading using Simple File Access, and set the input stream of the Text Input Stream service to the file 
+	' Open the file for reading using Simple File Access. Returns an InputStream
+	' See https://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1ucb_1_1XSimpleFileAccess.html#a3cc4816f38cb20913837d1735b2b2d6d
 	
-		oTextInputStream.SetInputStream(oSimpleFileAccess.OpenFileRead(sFileURL))
+		oInputStream = oSimpleFileAccess.OpenFileRead(sFileURL)
 		
+	' "Plug" the InputStream object into the TextInputStream (at least this is how I interpret what is happening).
+	' See https://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1io_1_1XActiveDataSink.html#ab2f54d6003382d17d74ee7f748bbd3ba
+		
+		oTextInputStream.SetInputStream(oExperiment)
+
 	' Read the contents of the file into the string buffer
 	
 		sBuffer = oTextInputStream.readString(lDelimiters(), False)
