@@ -49,7 +49,7 @@ Public Function ReadTextFile(ByVal sFilePath As String) As String
 	' "Plug" the InputStream object into the TextInputStream (at least this is how I interpret what is happening).
 	' See https://api.libreoffice.org/docs/idl/ref/interfacecom_1_1sun_1_1star_1_1io_1_1XActiveDataSink.html#ab2f54d6003382d17d74ee7f748bbd3ba
 		
-		oTextInputStream.SetInputStream(oExperiment)
+		oTextInputStream.SetInputStream(oInputStream)
 
 	' Read the contents of the file into the string buffer
 	
@@ -70,30 +70,41 @@ CleanExit:
 ErrorHandler:
 
 	Select Case True
-	Case Err = 12345 ' Some type of error has occurred
+	Case Err = 12345 ' A known/expected error has occurred
 		' Do something
 		Exit Function
 	Case Else
-		' Handle other errors
-		MsgBox "Error " & Err & ": " & Error$ + chr(13) + "At line : " + Erl + chr(13) + Now , 16 ,"an error occurred"
+		' Handle unknown/unexpected errors
+		MsgBox "Error number: " & Err & Chr(13)  & Chr(13) & _
+		"Error description: " & Error$ & Chr(13)  & Chr(13) & _
+		"At line: " & Erl & Chr(13)  & Chr(13) & _
+		"Date and time: " & Now , 48 ,"An unforeseen error occurred"
 	End Select
 	
 End Function 
 
 '____________________________________________________________________________________________________________________________________________________________________________
 
-Public Sub WriteTextFile(ByVal sTextToWrite As String, ByVal sFilePath As String, Optional ByVal sEncoding As String)
+Public Function WriteTextFile(ByVal sTextToWrite As String, ByVal sFilePath As String, ByVal bOverwrite As Boolean, Optional ByVal sEncoding As String) As Long
 '******************************************************************************************
 ' Procedure Name: WriteTextFile
 ' Purpose: Write text to a file
-' Procedure Kind: Sub
+' Procedure Kind: Function
 ' Procedure Access: Public
 ' Parameter sTextToWrite (String): The text to write to the file
 ' Parameter sFilePath (String): The full path to the file
+' Parameter iOverwrite (Boolean): Determines whether the function overwrites an existing file: 
+'		True = Overwrite
+'		False = Do not overwrite
 ' Parameter sEncoding (String): The name of the character set to use for encoding
 '		See https://www.iana.org/assignments/character-sets/character-sets.xhtml for a full list of
 '		character sets. If no character set is provided, function defaults to "UTF-8". 
 '		See end of this module for a short list of common characters sets.
+' Return values: 
+'		0 = No error
+'		1 = Type: com.sun.star.ucb.InteractiveAugmentedIOException
+'			   Message: a folder could not be created at ./ucbhelper/source/provider/cancelcommandexecution.cxx:84."
+'		2 = File already exists, but bOverwrite was set to False
 ' Usage example: 
 ' Author: Ray Culp
 ' Date: 26.06.2024
@@ -106,6 +117,7 @@ Public Sub WriteTextFile(ByVal sTextToWrite As String, ByVal sFilePath As String
 		Dim oSimpleFileAccess As Object
 		Dim oOutputStream As Object
 		Dim oTextOutputStream As Object
+		Dim sError As String 
 		
 	' Set up error handling
 		
@@ -114,6 +126,26 @@ Public Sub WriteTextFile(ByVal sTextToWrite As String, ByVal sFilePath As String
 	' Create a SimpleFileAccess service
 	
 		oSimpleFileAccess = createUnoService("com.sun.star.ucb.SimpleFileAccess")
+		
+    ' Check if the file exists
+    
+	    If oSimpleFileAccess.exists(sFilePath) Then
+	    
+	    ' Check whether we should overwrite it
+	    
+	    	If bOverwrite = true Then 
+	    
+	        	oSimpleFileAccess.kill(sFilePath)
+	        	
+	        Else 
+	        	
+	        	' If not, return an error and bail out
+	        	WriteTextFile = 2
+	        	Exit Function 
+	        	
+	        End If 
+	        
+	    End If
 		
 	' Open the file for writing
 		
@@ -143,22 +175,36 @@ Public Sub WriteTextFile(ByVal sTextToWrite As String, ByVal sFilePath As String
 	
 		oTextOutputStream.closeOutput()
 		
+	' Return 0
+	
+		WriteTextFile = 0
+		
 CleanExit:
 		
-	Exit Sub
+	Exit Function
 		
 ErrorHandler:
 
 	Select Case True
-	Case Err = 12345 ' Some type of error has occurred
+	Case Err = 12345 ' A known/expected error has occurred
 		' Do something
-		Exit Sub
+		Exit Function
+	Case Err = 1
+		sError = Error$
+		If InStr (1, Error$, "folder could not be created", 1) > 0 Then 
+			' There is most likely something wrong with the file path
+			WriteTextFile = 1
+			Exit Function
+		End If 
 	Case Else
-		' Handle other errors
-		MsgBox "Error " & Err & ": " & Error$ + chr(13) + "At line : " + Erl + chr(13) + Now , 16 ,"an error occurred"
+		' Handle unknown/unexpected errors
+		MsgBox "Error number: " & Err & Chr(13)  & Chr(13) & _
+		"Error description: " & Error$ & Chr(13)  & Chr(13) & _
+		"At line: " & Erl & Chr(13)  & Chr(13) & _
+		"Date and time: " & Now , 48 ,"An unforeseen error occurred"
 	End Select
 		
-End Sub
+End Function
 
 '____________________________________________________________________________________________________________________________________________________________________________
 
@@ -167,9 +213,9 @@ Sub TestWriteAndReadTextFile
 	Dim sResult As String 
 	Dim sFilePath As String 
 	
-	sFilePath = Environ ("HOME") & "/Documents/testfile.txt"
+	sFilePath = Environ ("HOME") & "239453295/Documents/testfile.txt"
 	
-	WriteTextFile("This is some text" & Chr(13) & "This is more text on a new line", sFilePath)
+	WriteTextFile("This is some text" & Chr(13) & "This is more text on a new line", sFilePath, True, "UTF-8")
 	
 	sResult = ReadTextFile(sFilePath)
 	
