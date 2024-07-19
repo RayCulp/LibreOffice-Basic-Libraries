@@ -213,7 +213,7 @@ Sub TestWriteAndReadTextFile
 	Dim sResult As String 
 	Dim sFilePath As String 
 	
-	sFilePath = Environ ("HOME") & "239453295/Documents/testfile.txt"
+	sFilePath = Environ ("HOME") & "/Documents/testfile.txt"
 	
 	WriteTextFile("This is some text" & Chr(13) & "This is more text on a new line", sFilePath, True, "UTF-8")
 	
